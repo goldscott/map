@@ -11,20 +11,26 @@
 	      
 	      var addr = "http://b.tile.stamen.com/watercolor/" + zoomLevel.toString() + "/";
 	      var origX = 16810;
+	      var origY = 24347;
+	      
 	      var x = origX;
-	      var y = 24347;
+	      var y = origY;
 	      var imgArray = [];
 	      
-	      //
+	      var xTiles = 10;
+	      var yTiles = 10;
+	      
+	      
+	      //Fill image array with tiles.
 	      for(i = 0; i < 10; i++)
 	      {
-	        for(j = 0; j < 10; j++)
+	        //fill each row (y).
+	        for(y = origY; y < origY+yTiles; y++)
 	        {
+	          //base url/x/y.jpg
 	          imgArray.push(addr + x.toString() + "/" + y.toString() + ".jpg");
-	          x++;
 	        }
-	        x = origX;
-	        y++;
+	        x++;  //increment to next column (x).
 	      }
 	      
 	      k = 0;
@@ -34,13 +40,12 @@
           {
             img = new Image();
             img.src = imgArray[k++];
-            //img.onload = ctx.drawImage(img,j*256,i*256,256,256);
             
-            img.onload = (function(img, i, j){ // temporary closure to store loop 
-                  return function () {          // variables reference 
-                    ctx.drawImage(img,j*256,i*256,256,256);  
-                  }  
-              })(img, i, j);      
+            img.onload = (function(img, i, j){  //temporary closure to store loop 
+                  return function () {          //variables reference 
+                    ctx.drawImage(img,i*256,j*256,256,256);  
+                  }
+              })(img, i, j);
             }
           }
 	    }
