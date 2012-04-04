@@ -22,7 +22,7 @@
 	      
 	      
 	      //Fill image array with tiles.
-	      for(i = 0; i < 10; i++)
+	      for(i = 0; i < xTiles; i++)
 	      {
 	        //fill each row (y).
 	        for(y = origY; y < origY+yTiles; y++)
@@ -33,13 +33,18 @@
 	        x++;  //increment to next column (x).
 	      }
 	      
-	      k = 0;
-        for (i = 0; i < 10; i++)
+	      ctx.height = 256*yTiles;
+        ctx.width  = 256*xTiles;
+        
+        
+	      //Draw all tiles.
+	      imgArrayIndex = 0;
+        for (i = 0; i < xTiles; i++)
         {
-          for (j = 0; j < 10; j++)
+          for (j = 0; j < yTiles; j++)
           {
             img = new Image();
-            img.src = imgArray[k++];
+            img.src = imgArray[imgArrayIndex++];
             
             img.onload = (function(img, i, j){  //temporary closure to store loop 
                   return function () {          //variables reference 
@@ -53,7 +58,7 @@
     </script>  
     <style type="text/css">  
       canvas { border: 1px solid black; }  
-    </style>  
+    </style>
   </head>
   <form id="search">
     <p>
