@@ -1,0 +1,66 @@
+<html>  
+  <head>  
+    <title>Tile Test</title>  
+    <script type="text/javascript">
+	    function draw2()
+	    {
+	      var ctx = document.getElementById('tutorial').getContext('2d');
+	      var img = new Image();
+	      
+	      var zoomLevel = 16;
+	      
+	      var addr = "http://b.tile.stamen.com/watercolor/" + zoomLevel.toString() + "/";
+	      var origX = 16810;
+	      var x = origX;
+	      var y = 24347;
+	      var imgArray = [];
+	      
+	      
+	      for(i = 0; i < 10; i++)
+	      {
+	        for(j = 0; j < 10; j++)
+	        {
+	          imgArray.push(addr + x.toString() + "/" + y.toString() + ".jpg");
+	          x++;
+	        }
+	        x = origX;
+	        y++;
+	      }
+	      
+	      k = 0;
+        for (i=0;i<10;i++)
+        {
+          for (j=0;j<10;j++)
+          {
+            img = new Image();
+            img.src = imgArray[k++];
+            //img.onload = ctx.drawImage(img,j*256,i*256,256,256);
+            
+            img.onload = (function(img, i, j){ // temporary closure to store loop 
+                  return function () {          // variables reference 
+                    ctx.drawImage(img,j*256,i*256,256,256);  
+                  }  
+              })(img, i, j);      
+            }
+          }
+	    }
+
+    </script>  
+    <style type="text/css">  
+      canvas { border: 1px solid black; }  
+    </style>  
+  </head>
+  <form id="search">
+    <p>
+      (This shit don't work right now. Chill.)
+      <input id="search-location" class="span3" type="text" placeholder="Type a location">
+      <input id="search-submit" class="btn" type="submit" value="Find">
+    </p>
+  </form>
+  
+  <body onload="draw2();">  
+    <canvas id="tutorial" width="2560" height="2560"></canvas>
+      
+      
+  </body>  
+</html>
